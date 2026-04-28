@@ -3,22 +3,117 @@
 AttraX Spring Hackathon
 
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+  <img width="1200" height="475" alt="LingVibe banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-## Run and deploy your AI Studio app
+LingVibe is a React + Vite prototype for an AI-guided scent environment. The UI can call either the default OpenAI-compatible LiteLLM provider or the Gemini provider selected from the in-app model dropdown.
 
-This contains everything you need to run your app locally.
+## Local Setup
 
-View your app in AI Studio: https://ai.studio/apps/bb143475-8d2e-46f2-bc85-9d3d303f9909
+**Prerequisites**
+
+- Node.js 18 or newer
+- npm
+- Chrome or Edge if you want to use the optional Web Bluetooth fan controller
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+On Windows PowerShell, if `npm` is blocked by the script execution policy, use the `.cmd` shim instead:
+
+```powershell
+npm.cmd install
+```
+
+Create a local environment file:
+
+```bash
+cp .env.example .env.local
+```
+
+On Windows PowerShell:
+
+```powershell
+Copy-Item .env.example .env.local
+```
+
+## Model Provider Configuration
+
+The app starts with `LiteLLM` selected by default. Configure these values in `.env.local`:
+
+```env
+VITE_LITE_LLM_BASE_URL="/api/lite"
+LITE_LLM_UPSTREAM_BASE_URL="https://api.minimaxi.com/v1"
+LITE_LLM_API_KEY="YOUR_LITELLM_OR_MINIMAX_API_KEY"
+VITE_LITE_LLM_MODEL="MiniMax-M2.7"
+```
+
+`/api/lite` is a Vite dev-server proxy. It forwards requests to `LITE_LLM_UPSTREAM_BASE_URL` and injects `LITE_LLM_API_KEY` server-side during local development.
+
+To use Gemini instead, get a Gemini API key from Google AI Studio:
+
+https://aistudio.google.com/app/apikey
+
+Then set:
+
+```env
+GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
+```
+
+Start the app, then choose `Gemini` from the provider dropdown in the top-right status bar.
+
+> Do not commit `.env.local` or real API keys. The current Gemini path is suitable for local demos because the key is read by the browser build. For production, move model calls behind a server-side API so secrets are not exposed to clients.
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
+Start the Vite dev server:
 
+```bash
+npm run dev
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+On Windows PowerShell:
+
+```powershell
+npm.cmd run dev
+```
+
+Open:
+
+http://localhost:3000/
+
+Use `localhost` for the optional Web Bluetooth fan controller. Web Bluetooth requires Chrome or Edge and a secure context, which includes `localhost` or HTTPS.
+
+## Optional Fan Controller
+
+The UI can connect to a BLE fan controller named `LC_ESP32S3_FAN`.
+
+1. Power on the ESP32 fan controller and make sure it is advertising.
+2. Open the app in Chrome or Edge at `http://localhost:3000/`.
+3. Click `FAN_OFF` in the top status bar.
+4. Select `LC_ESP32S3_FAN` in the browser Bluetooth picker.
+
+The app still works without the fan controller; model responses and visual effects remain available.
+
+## Scripts
+
+```bash
+npm run dev      # Start local dev server on port 3000
+npm run build    # Build production assets into dist/
+npm run preview  # Preview the production build
+npm run lint     # Type-check with TypeScript
+```
+
+## Verification
+
+This setup was verified locally with:
+
+```bash
+npm run lint
+npm run build
+```
+
+The development server should return the app at `http://localhost:3000/`.
