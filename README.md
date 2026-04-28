@@ -3,7 +3,7 @@
 AttraX Spring Hackathon
 
 <div align="center">
-  <img width="1200" height="475" alt="LingVibe banner" src="https://github.com/lzxgetoffearly-a11y/LingVibe/blob/main/" />
+  <img width="640" alt="LingVibe scent diffuser prototype" src="assets/lingvibe-banner.jpg" />
 </div>
 
 LingVibe is a React + Vite prototype for an AI-guided scent environment. The UI can call either the default OpenAI-compatible LiteLLM provider or the Gemini provider selected from the in-app model dropdown.
