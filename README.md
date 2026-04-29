@@ -98,6 +98,16 @@ The UI can connect to a BLE fan controller named `LC_ESP32S3_FAN`.
 
 The app still works without the fan controller; model responses and visual effects remain available.
 
+## Fan Wiring Principle
+
+<div align="center">
+  <img src="./assets/esp32-fan-wiring-diagram.png" alt="ESP32-S3 fan controller wiring diagram" width="100%" />
+</div>
+
+The fan controller uses a 5V battery as the shared power source. The ESP32-S3 `5V/VIN` pin connects to the 5V rail, and the battery negative, ESP32-S3 `GND`, and all MOSFET source pins share the same common ground.
+
+Each blower fan is wired in parallel between the 5V rail and the drain of an A3400 N-channel MOSFET. GPIO1, GPIO2, GPIO3, and GPIO4 drive the MOSFET gates for fan channels 1 through 4. When a GPIO output goes high, the matching MOSFET turns on and completes the fan's path to ground; when the GPIO goes low, that channel turns off.
+
 ## Scripts
 
 ```bash
